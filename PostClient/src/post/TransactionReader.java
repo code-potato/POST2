@@ -1,8 +1,11 @@
-package controller;
+package post;
 
 import java.io.*;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
+
+import serverInterfaces.*;
+import postInterfaces.*;
 
 /**
  * TransactionReader reads a list of transactions records from a file, and

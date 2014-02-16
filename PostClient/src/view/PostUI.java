@@ -4,6 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
+import postInterfaces.*;
+import serverInterfaces.*;
+import post.*;
+
 /**
  *
  * @author Michael Santer
@@ -59,7 +63,7 @@ public class PostUI {
              *An available post is sent so that the customer can pass off the
              *transaction to the post for processing. */
             try {
-                Customer.getTransactions(transactFile, post);
+                CustomerImpl.getTransactions(transactFile, post);
             } catch (FileNotFoundException ex) {
                 System.err.println("File was not found!");
             } catch (IOException ex) {

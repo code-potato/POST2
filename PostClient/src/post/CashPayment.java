@@ -1,12 +1,12 @@
-package controller;
+package post;
 
 /**
- * CheckPayment defines how check payments are processed.
+ * CashPayment defines how cash payments are processed. 
  * @author Michael Santer
  */
-class CheckPayment extends Payment {
+class CashPayment extends PaymentImpl {
 
-    public CheckPayment() {
+    public CashPayment() {
     }
 
     @Override

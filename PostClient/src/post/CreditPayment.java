@@ -1,10 +1,10 @@
-package controller;
+package post;
 
 /**
  * CreditPayment defines how credit payments are processed.
  * @author Michael Santer
  */
-class CreditPayment extends Payment {
+class CreditPayment extends PaymentImpl {
 
     private int accountNumber;
     

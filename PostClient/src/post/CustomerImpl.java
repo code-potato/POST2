@@ -1,13 +1,16 @@
-package controller;
+package post;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import postInterfaces.*;
+import serverInterfaces.*;
 
 /**
  * Customer is responsible for initiating new transactions.
  * @author Michael Santer
  */
-class Customer {
+public class CustomerImpl implements Customer {
     private String firstName, lastName;
     
     /**
@@ -15,7 +18,7 @@ class Customer {
      * instantiated by calling the class method "getTransactions". This 
      * enforces the schema that a customer must initiate a transaction.  
      */
-    private Customer(){
+    private CustomerImpl (){
     }
 
     public void setFirstName(String firstName) {
@@ -46,7 +49,7 @@ class Customer {
         
         while(reader.hasMoreTransactions()){
             //Instantiate empty customer
-            Customer customer = new Customer();
+            Customer customer = new CustomerImpl();
             
             //Construct transactionRecord for customer
             TransactionRecord transaction = reader.getNextTransaction(customer);

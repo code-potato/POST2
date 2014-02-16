@@ -1,11 +1,11 @@
-package controller;
-
+package post;
+import postInterfaces.*;
 /**
  * Payment is an abstract class that defines the structure for other types of
  * payments. 
  * @author Michael Santer
  */
-abstract class Payment {
+abstract class PaymentImpl implements Payment {
     private double amount;
     
     /**

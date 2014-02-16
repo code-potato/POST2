@@ -1,7 +1,8 @@
-package controller;
+package post;
 
 import java.util.ArrayList;
-
+import postInterfaces.*;
+import serverInterfaces.*;
 
 /**
  * Post's main responsibility is to perform the transaction. This includes
@@ -9,10 +10,10 @@ import java.util.ArrayList;
  * 4)saving transactionRecord, and 5)printing the invoice.
  * @author Michael Santer
  */
-class Post {
+class PostImpl implements Post {
     private Store store;
     
-    public Post(Store store){
+    public PostImpl(Store store){
         this.store = store;
     }
     
