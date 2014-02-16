@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package model;
+package serverInterfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  * @author David
  */
-public interface IStore extends java.rmi.Remote{
+public interface Store extends java.rmi.Remote{
     
     public Post getPost() throws RemoteException;
     public void newPost() throws Exception, RemoteException;

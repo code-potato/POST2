@@ -1,6 +1,7 @@
-package post;
+package server;
 
 import java.io.IOException;
+import serverInterfaces.*;
 
 /**
  *
@@ -10,11 +11,11 @@ import java.io.IOException;
  * POSTs, and loading the Product Catalog.
  *
  */
-public class Manager {
+public class ManagerImpl implements Manager{
 
-    private Store store;
+    private StoreImpl store;
 
-    private Manager() {
+    private ManagerImpl() {
     }
 
     /**
@@ -27,7 +28,7 @@ public class Manager {
         if (store != null) {
             throw new Exception("Store is already open!");
         }
-        store = new Store(storeName);
+        store = new StoreImpl(storeName);
     }
 
     /**
@@ -75,7 +76,7 @@ public class Manager {
      * @param args
      */
     public static void main(String args[]) {
-        Manager manager = new Manager();
+        Manager manager = new ManagerImpl();
         PostUI ui = new PostUI(manager);
         ui.run(manager);
     }

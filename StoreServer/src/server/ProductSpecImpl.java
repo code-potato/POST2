@@ -1,15 +1,16 @@
-package post;
+package server;
 
+import serverInterfaces.*;
 /**
  * ProductSpec contains necessary information to describe a product. 
  * @author David
  */
-public class ProductSpec {
+public class ProductSpecImpl implements ProductSpec{
     private String UPC;
     private String description;
     private float price;
     
-    public ProductSpec(){
+    public ProductSpecImpl(){
     }
     
     public void setUPC(String UPC){ 

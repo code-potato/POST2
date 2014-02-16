@@ -1,4 +1,4 @@
-package post;
+package server;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -49,7 +49,7 @@ public class ProductReader {
      * from the line.
      * @return ProductSpec
      */
-    public ProductSpec getNextProduct(){
+    public ProductSpecImpl getNextProduct(){
         //read next line in file
         //then create a ProductSpec instance and return it
         //listOfItems.add(new Item(productSpec));]
@@ -62,7 +62,7 @@ public class ProductReader {
         String sPrice = tok.nextToken();
         float price = Float.parseFloat(sPrice);
         
-        ProductSpec nextProduct = new ProductSpec();
+        ProductSpecImpl nextProduct = new ProductSpecImpl();
         
         nextProduct.setUPC(UPC);
         nextProduct.setDescription(description);

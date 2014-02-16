@@ -1,18 +1,20 @@
-package post;
+package server;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import serverInterfaces.*;
 
 /**
  * Store contains a productCatalog, a POST, and a transactionRecord history.
  * @author Michael Santer
  */
-public class Store {
+public class StoreImpl implements Store {
     private String name;
     private Post post;
     private ProductCatalog productCatalog;
     private ArrayList<TransactionRecord> transactionHistory;
     
-    public Store(String name){
+    public StoreImpl(String name){
         this.name = name;
         productCatalog = new ProductCatalog(); 
         transactionHistory = new ArrayList<TransactionRecord>();
@@ -36,7 +38,7 @@ public class Store {
      * Adds a single product to the product catalog.
      * @param product 
      */
-    public void addProductToCatalog(ProductSpec product){
+    public void addProductToCatalog(ProductSpec product) throws RemoteException{
         productCatalog.addProductToCatalog(product);
     }           
 
@@ -69,5 +71,6 @@ public class Store {
     public String getName() {
         return name;
     }
+
     
 }

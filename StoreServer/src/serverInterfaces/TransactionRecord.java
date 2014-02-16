@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package model;
+package serverInterfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -16,7 +16,7 @@ import java.util.Date;
  *
  * @author David
  */
-public interface ITransactionRecord extends java.rmi.Remote{
+public interface TransactionRecord extends java.rmi.Remote{
     
     public String getCustomerFirstName() throws RemoteException;
     public String getCustomerLastName() throws RemoteException;

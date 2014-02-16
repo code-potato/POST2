@@ -1,11 +1,13 @@
-package post;
+package server;
 
 /**
  * ProductCatalog contains all productSpecs matched with a UPC. 
  * @author David
  */
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
+import serverInterfaces.*;
 
 public class ProductCatalog {
 
@@ -16,7 +18,7 @@ public class ProductCatalog {
         catalog = new HashMap<String,ProductSpec>();
     }
     
-    public void addProductToCatalog(ProductSpec product){
+    public void addProductToCatalog(ProductSpec product) throws RemoteException{
         catalog.put(product.getUPC(), product);
     }
 

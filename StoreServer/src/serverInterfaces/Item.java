@@ -4,23 +4,24 @@
  * and open the template in the editor.
  */
 
-package postinterfaces;
+package serverInterfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+//import post.*;
 
 /**
  *
  * @author David
  */
-public interface IProductSpec extends java.rmi.Remote{
-    
-    public void setUPC(String UPC) throws RemoteException;
-    public void setDescription(String description) throws RemoteException;
-    public void setPrice(float price) throws RemoteException;
+public interface Item extends java.rmi.Remote{
+  
+    public void setProductSpec(ProductSpec productSpec) throws RemoteException;
+    public void setQuantity(int quantity) throws RemoteException;
     public String getUPC() throws RemoteException;
-    public String getDescription() throws RemoteException;
+    public int getQuantity() throws RemoteException;
     public float getPrice() throws RemoteException;
-	
-	
+    public String getDescription() throws RemoteException;
+
+  
 }

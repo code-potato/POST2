@@ -1,7 +1,8 @@
-package post;
+package server;
 
 import java.util.ArrayList;
 import java.util.Date;
+import serverInterfaces.*;
 
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * a transaction.
  * @author Michael Santer
  */
-class TransactionRecord {
+class TransactionRecordImpl implements TransactionRecord{
     
     private Customer customer;
     private Payment payment;
@@ -22,7 +23,7 @@ class TransactionRecord {
      * only a customer should start a transaction. 
      * @param customer 
      */
-    public TransactionRecord(Customer customer){
+    public TransactionRecordImpl(Customer customer){
         //set date and time to current date and time
         dateAndTime = new Date();
         this.customer = customer;
