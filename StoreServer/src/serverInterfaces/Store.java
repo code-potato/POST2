@@ -9,7 +9,7 @@ package serverInterfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-//import post.*;
+import serverSharedClasses.*;
 
 
 /**

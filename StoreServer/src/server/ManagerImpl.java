@@ -2,6 +2,7 @@ package server;
 
 import java.io.IOException;
 import serverInterfaces.*;
+import serverSharedClasses.Post;
 
 /**
  *
@@ -11,7 +12,7 @@ import serverInterfaces.*;
  * POSTs, and loading the Product Catalog.
  *
  */
-public class ManagerImpl implements Manager{
+class ManagerImpl implements Manager{
 
     private StoreImpl store;
 
@@ -77,7 +78,7 @@ public class ManagerImpl implements Manager{
      */
     public static void main(String args[]) {
         Manager manager = new ManagerImpl();
-        PostUI ui = new PostUI(manager);
-        ui.run(manager);
+        //PostUI ui = new PostUI(manager);
+        //ui.run(manager);
     }
 }

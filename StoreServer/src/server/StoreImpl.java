@@ -3,12 +3,13 @@ package server;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import serverInterfaces.*;
+import serverSharedClasses.*;
 
 /**
  * Store contains a productCatalog, a POST, and a transactionRecord history.
  * @author Michael Santer
  */
-public class StoreImpl implements Store {
+class StoreImpl implements Store {
     private String name;
     private Post post;
     private ProductCatalog productCatalog;

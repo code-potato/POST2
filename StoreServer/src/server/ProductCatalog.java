@@ -8,8 +8,9 @@ package server;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import serverInterfaces.*;
+import serverSharedClasses.*;
 
-public class ProductCatalog {
+class ProductCatalog {
 
     //a map of UPC's and the matchem product
     private HashMap<String,ProductSpec> catalog;

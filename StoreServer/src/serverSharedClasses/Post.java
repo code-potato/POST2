@@ -1,7 +1,6 @@
-package post;
+package serverSharedClasses;
 
 import java.util.ArrayList;
-import postInterfaces.*;
 import serverInterfaces.*;
 
 /**
@@ -10,10 +9,10 @@ import serverInterfaces.*;
  * 4)saving transactionRecord, and 5)printing the invoice.
  * @author Michael Santer
  */
-class PostImpl implements Post {
+public class Post{
     private Store store;
     
-    public PostImpl(Store store){
+    public Post(Store store){
         this.store = store;
     }
     

@@ -9,6 +9,7 @@ package serverInterfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.io.IOException;
+import serverSharedClasses.Post;
 //import post.Post;
 
 /**

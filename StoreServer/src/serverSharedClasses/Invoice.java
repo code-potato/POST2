@@ -1,6 +1,10 @@
-package post;
+package serverSharedClasses;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import serverInterfaces.*;
 
 /**
  * Invoice handles how transactions are presented.
@@ -27,7 +31,11 @@ public class Invoice {
     public String toString() {
         String invoice = "";
         invoice += "______________________________________________________\n\n";
-        invoice += store.getName() + "\n";
+        try {
+            invoice += store.getName() + "\n";
+        } catch (RemoteException ex) {
+            Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
+        }
         invoice += "______________________________________________________\n\n";
 
         invoice += String.format("%-25s %-20s\n", "Customer Name:", "Date & Time:");
@@ -44,10 +52,14 @@ public class Invoice {
 
         ArrayList<Item> items = transaction.getItems();
         for (Item item : items) {
-            double price = store.getProduct(item.getUPC()).getPrice();
-            invoice += String.format("%-12s %-12s $%-12.2f $%-12.2f\n",
-                    store.getProduct(item.getUPC()).getDescription(),
-                    item.getQuantity(), price, price * item.getQuantity());
+            try {
+                double price = store.getProduct(item.getUPC()).getPrice();
+                invoice += String.format("%-12s %-12s $%-12.2f $%-12.2f\n",
+                        store.getProduct(item.getUPC()).getDescription(),
+                        item.getQuantity(), price, price * item.getQuantity());
+            } catch (RemoteException ex) {
+                Logger.getLogger(Invoice.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         invoice += "------------------------------------------------------\n";

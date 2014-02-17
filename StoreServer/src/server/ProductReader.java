@@ -1,5 +1,6 @@
 package server;
 
+import serverSharedClasses.ProductSpec;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.util.StringTokenizer;
  * appropriate ProductSpec objects. 
  * @author David
  */
-public class ProductReader {
+class ProductReader {
     private FileReader in;
     private BufferedReader reader;
 
@@ -49,7 +50,7 @@ public class ProductReader {
      * from the line.
      * @return ProductSpec
      */
-    public ProductSpecImpl getNextProduct(){
+    public ProductSpec getNextProduct(){
         //read next line in file
         //then create a ProductSpec instance and return it
         //listOfItems.add(new Item(productSpec));]
@@ -62,7 +63,7 @@ public class ProductReader {
         String sPrice = tok.nextToken();
         float price = Float.parseFloat(sPrice);
         
-        ProductSpecImpl nextProduct = new ProductSpecImpl();
+        ProductSpec nextProduct = new ProductSpec();
         
         nextProduct.setUPC(UPC);
         nextProduct.setDescription(description);

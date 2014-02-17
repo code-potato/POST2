@@ -1,10 +1,10 @@
-package post;
+package serverSharedClasses;
 
 /**
  * CreditPayment defines how credit payments are processed.
  * @author Michael Santer
  */
-class CreditPayment extends PaymentImpl {
+public class CreditPayment extends Payment {
 
     private int accountNumber;
     

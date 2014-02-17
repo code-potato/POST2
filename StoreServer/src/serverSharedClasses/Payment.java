@@ -1,11 +1,10 @@
-package post;
-import postInterfaces.*;
+package serverSharedClasses;
 /**
  * Payment is an abstract class that defines the structure for other types of
  * payments. 
  * @author Michael Santer
  */
-abstract class PaymentImpl implements Payment {
+public abstract class Payment{
     private double amount;
     
     /**

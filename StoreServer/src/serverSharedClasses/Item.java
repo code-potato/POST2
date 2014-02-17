@@ -1,4 +1,4 @@
-package server;
+package serverSharedClasses;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import serverInterfaces.*;
@@ -8,11 +8,11 @@ import serverInterfaces.*;
  * 
  * @author Michael Santer
  */
-public class ItemImpl extends UnicastRemoteObject implements Item{
+public class Item {
     private ProductSpec productSpec;
     private int quantity;
     
-    public ItemImpl() throws RemoteException {   
+    public Item() throws RemoteException {   
     }
 
     public void setQuantity(int quantity) throws RemoteException{
