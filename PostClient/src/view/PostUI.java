@@ -10,7 +10,7 @@ import post.*;
 
 /**
  *
- * @author Michael Santer
+ * @author Michael Santer and friends
  *
  * PostUI handles all user interfacing. Communicates between Manager and Post.
  */
