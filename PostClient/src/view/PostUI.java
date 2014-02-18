@@ -2,7 +2,6 @@ package view;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.*;
@@ -10,10 +9,8 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//import postInterfaces.*;
 import serverInterfaces.*;
 import serverSharedClasses.*;
-//import post.*;
 
 /**
  *
