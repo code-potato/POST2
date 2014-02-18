@@ -4,7 +4,7 @@ package serverSharedClasses;
  * CashPayment defines how cash payments are processed. 
  * @author Michael Santer
  */
-class CashPayment extends Payment {
+public class CashPayment extends Payment {
 
     public CashPayment() {
     }

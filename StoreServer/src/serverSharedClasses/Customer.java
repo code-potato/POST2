@@ -10,6 +10,7 @@ import serverSharedClasses.*;
  * @author Michael Santer
  */
 public class Customer{
+
     private String firstName, lastName;
     
     /**
@@ -42,11 +43,11 @@ public class Customer{
      * transactionRecord, and hands off to post to process transaction.  
      * @return 
      */
-    public static void getTransactions(String transactFile, Post post) 
-            throws FileNotFoundException, IOException, Exception{
+    public static TransactionRecord getTransactions(String transactFile) 
+            throws FileNotFoundException, IOException, Exception {
         TransactionReader reader = new TransactionReader(transactFile);
         
-        while(reader.hasMoreTransactions()){
+        //while(reader.hasMoreTransactions()){
             //Instantiate empty customer
             Customer customer = new Customer();
             
@@ -54,8 +55,8 @@ public class Customer{
             TransactionRecord transaction = reader.getNextTransaction(customer);
             
             //Request POST to process the transaction
-            post.transact(transaction);
-        }
+            return transaction;
+        //}
     }
     
 }

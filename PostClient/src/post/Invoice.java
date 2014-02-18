@@ -1,10 +1,13 @@
-package serverSharedClasses;
+package post;
+
+
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import serverInterfaces.*;
+import serverSharedClasses.*;
 
 /**
  * Invoice handles how transactions are presented.

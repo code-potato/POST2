@@ -1,7 +1,9 @@
-package serverSharedClasses;
+package post;
 
 import java.util.ArrayList;
 import serverInterfaces.*;
+import serverSharedClasses.Item;
+import serverSharedClasses.TransactionRecord;
 
 /**
  * Post's main responsibility is to perform the transaction. This includes
@@ -16,7 +18,7 @@ public class Post{
         this.store = store;
     }
     
-    public void transact(TransactionRecord transaction) throws Exception {
+    public TransactionRecord transact(TransactionRecord transaction) throws Exception {
         double total = 0.;
         ArrayList<Item> items = transaction.getItems();
         
@@ -33,12 +35,12 @@ public class Post{
         double amount = transaction.getPayment().processPayment(total);
         
         //4. save transactionRecord to store's transactionHistory
-        store.saveTransaction(transaction);
+        return transaction;
         
         //5. print invoice
-        Invoice invoice = new Invoice(transaction, total, store);
-        invoice.setAmountReturned(amount);
-        invoice.print();
+//        Invoice invoice = new Invoice(transaction, total, store);
+//        invoice.setAmountReturned(amount);
+//        invoice.print();
     }
     
 }

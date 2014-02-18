@@ -7,7 +7,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import serverInterfaces.*;
-import serverSharedClasses.Post;
 
 /**
  *
@@ -34,7 +33,7 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
         if (store != null) {
             throw new Exception("Store is already open!");
         }
-        store = new StoreImpl(storeName);
+        store = new StoreImpl();
     }
 
     /**
@@ -56,12 +55,12 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
      *
      * @throws Exception if store is open, or if POST is already initialized.
      */
-    public void initPost() throws Exception {
-        if (store == null) {
-            throw new Exception("Store is not open!");
-        }
-        store.newPost();
-    }
+//    public void initPost() throws Exception {
+//        if (store == null) {
+//            throw new Exception("Store is not open!");
+//        }
+//        store.newPost();
+//    }
 
     /**
      * Retrieves POST from store.
@@ -69,12 +68,12 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
      * @return
      * @throws Exception if store is not open.
      */
-    public Post getPost() throws Exception {
-        if (store == null) {
-            throw new Exception("Store is not open!");
-        }
-        return store.getPost();
-    }
+//    public Post getPost() throws Exception {
+//        if (store == null) {
+//            throw new Exception("Store is not open!");
+//        }
+//        return store.getPost();
+//    }
 
     /**
      * Instantiate manager, instantiate UI, run UI.
@@ -87,8 +86,11 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
         }
         try {
             Manager manager = new ManagerImpl();
+            Store store = new StoreImpl();
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind("manager", manager);
+            registry.rebind("store", store);
+            
         } catch (RemoteException ex) {
             Logger.getLogger(ManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

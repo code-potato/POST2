@@ -9,8 +9,6 @@ package serverInterfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.io.IOException;
-import serverSharedClasses.Post;
-//import post.Post;
 
 /**
  *
@@ -20,6 +18,6 @@ public interface Manager extends java.rmi.Remote{
     
     public void openStore(String storeName) throws Exception, RemoteException;
     public void setupProductCatalog(String productCatalogFile) throws IOException, RemoteException;
-    public void initPost() throws Exception, RemoteException;
-    public Post getPost() throws Exception, RemoteException;
+    //public void initPost() throws Exception, RemoteException;
+    //public Post getPost() throws Exception, RemoteException;
 }

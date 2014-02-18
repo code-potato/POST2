@@ -18,13 +18,14 @@ import serverSharedClasses.*;
  */
 public interface Store extends java.rmi.Remote{
     
-    public Post getPost() throws RemoteException;
-    public void newPost() throws Exception, RemoteException;
+    //public Post getPost() throws RemoteException;
+    //public void newPost() throws Exception, RemoteException;
     public void addProductToCatalog(ProductSpec product) throws RemoteException;
     public boolean hasProduct(String upc) throws RemoteException;
     public ProductSpec getProduct(String upc) throws RemoteException;
     public void saveTransaction(TransactionRecord transaction) throws RemoteException;
     public String getName() throws RemoteException;
+    public void setName(String name) throws RemoteException;
 	
 	
 }

@@ -12,29 +12,33 @@ import serverSharedClasses.*;
  */
 class StoreImpl extends UnicastRemoteObject implements Store {
     private String name;
-    private Post post;
+    //private Post post;
     private ProductCatalog productCatalog;
     private ArrayList<TransactionRecord> transactionHistory;
     
-    public StoreImpl(String name) throws RemoteException{
-        this.name = name;
+    public StoreImpl() throws RemoteException{
+        this.name = "Default Store";
         productCatalog = new ProductCatalog(); 
         transactionHistory = new ArrayList<TransactionRecord>();
     }
     
-    public Post getPost(){
-        return post;
+//    public Post getPost(){
+//        return post;
+//    }
+    
+    public void setName(String name){
+        this.name = name;
     }
 
     /**
      * Creates a new POST. 
      * @throws Exception if POST has already initialized. 
      */
-    public void newPost() throws Exception {
-        if (post != null)
-            throw new Exception("Post already exists!");
-        post = new Post(this);
-    }
+//    public void newPost() throws Exception {
+//        if (post != null)
+//            throw new Exception("Post already exists!");
+//        post = new Post(this);
+//    }
     
     /**
      * Adds a single product to the product catalog.
