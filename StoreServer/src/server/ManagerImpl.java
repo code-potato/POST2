@@ -90,6 +90,7 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind("manager", manager);
             registry.rebind("store", store);
+            System.out.println("Manager and store instantiated");
             
         } catch (RemoteException ex) {
             Logger.getLogger(ManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
