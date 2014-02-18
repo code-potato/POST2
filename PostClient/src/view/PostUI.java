@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 //import postInterfaces.*;
 import serverInterfaces.*;
+import serverSharedClasses.*;
 //import post.*;
 
 /**
@@ -23,7 +24,7 @@ import serverInterfaces.*;
 public class PostUI {
 
     private Manager manager;
-    //private Post post;
+    private Post post;
 
     public PostUI(Manager manager) {
         this.manager = manager;
@@ -44,7 +45,7 @@ public class PostUI {
         try {
             manager.openStore(in.nextLine());
             manager.initPost();
-  //          post = manager.getPost();
+            post = manager.getPost();
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
@@ -68,15 +69,15 @@ public class PostUI {
             /*Request Customer class to get transactions from file.
              *An available post is sent so that the customer can pass off the
              *transaction to the post for processing. */
-//            try {
-//    //            CustomerImpl.getTransactions(transactFile, post);
-//            } catch (FileNotFoundException ex) {
-//                System.err.println("File was not found!");
-//            } catch (IOException ex) {
-//                System.err.println("Error reading file. Check file format.");
-//            } catch (Exception ex) {
-//                System.err.println(ex.getMessage());
-//            }
+            try {
+                Customer.getTransactions(transactFile, post);
+            } catch (FileNotFoundException ex) {
+                System.err.println("File was not found!");
+            } catch (IOException ex) {
+                System.err.println("Error reading file. Check file format.");
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
+            }
 
         }
     }
