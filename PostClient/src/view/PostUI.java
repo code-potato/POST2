@@ -2,7 +2,13 @@ package view;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 //import postInterfaces.*;
 import serverInterfaces.*;
@@ -28,7 +34,7 @@ public class PostUI {
      *
      * @param manager
      */
-    public void run(Manager manager) {
+    public void run() {
         Scanner in = new Scanner(System.in);
 
         System.out.println("Welcome to the point of sale terminal (POST)!");
@@ -73,5 +79,28 @@ public class PostUI {
 //            }
 
         }
+    }
+    
+    public static void main(String[] args){
+        if(System.getSecurityManager() == null){
+            System.setSecurityManager(new SecurityManager());
+        }
+        
+        try{
+            //get manager object through RMI connection
+            Registry rmtReg = LocateRegistry.getRegistry();
+            Manager manager = (Manager)rmtReg.lookup("manager");
+            
+            //instantiate UI object
+            PostUI ui = new PostUI(manager);
+            //run UI
+            ui.run();
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

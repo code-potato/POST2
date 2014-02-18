@@ -1,6 +1,11 @@
 package server;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.rmi.registry.*;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import serverInterfaces.*;
 import serverSharedClasses.Post;
 
@@ -12,11 +17,11 @@ import serverSharedClasses.Post;
  * POSTs, and loading the Product Catalog.
  *
  */
-class ManagerImpl implements Manager{
+class ManagerImpl extends UnicastRemoteObject implements Manager {
 
     private StoreImpl store;
 
-    private ManagerImpl() {
+    private ManagerImpl() throws RemoteException{
     }
 
     /**
@@ -77,8 +82,15 @@ class ManagerImpl implements Manager{
      * @param args
      */
     public static void main(String args[]) {
-        Manager manager = new ManagerImpl();
-        //PostUI ui = new PostUI(manager);
-        //ui.run(manager);
+        if (System.getSecurityManager() == null){
+            System.setSecurityManager(new SecurityManager());
+        }
+        try {
+            Manager manager = new ManagerImpl();
+            Registry registry = LocateRegistry.getRegistry();
+            registry.rebind("manager", manager);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

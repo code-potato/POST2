@@ -1,6 +1,7 @@
 package server;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import serverInterfaces.*;
 import serverSharedClasses.*;
@@ -9,13 +10,13 @@ import serverSharedClasses.*;
  * Store contains a productCatalog, a POST, and a transactionRecord history.
  * @author Michael Santer
  */
-class StoreImpl implements Store {
+class StoreImpl extends UnicastRemoteObject implements Store {
     private String name;
     private Post post;
     private ProductCatalog productCatalog;
     private ArrayList<TransactionRecord> transactionHistory;
     
-    public StoreImpl(String name){
+    public StoreImpl(String name) throws RemoteException{
         this.name = name;
         productCatalog = new ProductCatalog(); 
         transactionHistory = new ArrayList<TransactionRecord>();
