@@ -87,7 +87,7 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
         try {
             Manager manager = new ManagerImpl();
             Store store = new StoreImpl();
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.createRegistry(1099);
             registry.rebind("manager", manager);
             registry.rebind("store", store);
             System.out.println("Manager and store instantiated");

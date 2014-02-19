@@ -36,7 +36,4 @@ public class ProductSpec{
     public float getPrice() {
         return price;
     }
-    
-    
-
 }

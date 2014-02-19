@@ -103,7 +103,7 @@ public class PostUI {
         
         try{
             //get manager object through RMI connection
-            Registry rmtReg = LocateRegistry.getRegistry("localhost");
+            Registry rmtReg = LocateRegistry.getRegistry("127.0.0.1", 1099);
             Manager manager = (Manager)rmtReg.lookup("manager");
             Store store = (Store)rmtReg.lookup("store");
             
