@@ -1,7 +1,5 @@
 package post;
 
-
-
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -23,6 +21,12 @@ public class Invoice {
     public Invoice(TransactionRecord transaction, Store store) {
         this.transaction = transaction;
         this.store = store;
+    }
+
+    public Invoice(TransactionRecord transaction, double total, Store store) {
+        this.transaction = transaction;
+        this.store = store;
+        this.total = total;
     }
 
     /**
@@ -87,6 +91,27 @@ public class Invoice {
      */
     public void print() {
         System.out.println(this);
+    }
+
+    /**
+     * Prints a transaction result to GUI screen.
+     */
+    public String printToScreen() {
+        String invoice = "";
+        invoice += "\n---------------------------------------------------------------------------------------------------------\n";
+
+        if (transaction.getPayment() instanceof CashPayment) {
+            invoice += "Amount Tendered: $"
+                    + String.format("%.2f\n", transaction.getPayment().getAmount())
+                    + "Amount Returned: $"
+                    + String.format("%.2f\n", amountReturned);
+        } else if (transaction.getPayment() instanceof CheckPayment) {
+            invoice += "Paid by Check \n";
+        } else { //if credit card
+            CreditPayment credit = (CreditPayment) transaction.getPayment();
+            invoice += "Paid by Credit Card " + credit.getAccountNumber() + "\n";
+        }
+        return invoice;
     }
 
     void setAmountReturned(double amount) {
