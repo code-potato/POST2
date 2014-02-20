@@ -9,6 +9,7 @@ import java.rmi.registry.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import post.Invoice;
 
 import serverInterfaces.*;
 import serverSharedClasses.*;
@@ -42,14 +43,19 @@ public class PostUI {
         System.out.println("Welcome to the point of sale terminal (POST)!");
 
         //Get name of store and ask manager to open store and init post. 
-//        System.out.print("Please enter the name of the store: ");
-//        try {
+        System.out.print("Please enter the name of the store: ");
+        try {
+            //        try {
 //            //manager.openStore(in.nextLine());
 //            manager.initPost();
 //            post = manager.getPost();
 //        } catch (Exception ex) {
 //            System.err.println(ex.getMessage());
 //        }
+            store.setName(in.nextLine());
+        } catch (RemoteException ex) {
+            Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         //Get name of product catalog and ask manager to initialize it. 
         System.out.print("Please enter the name of Product Catalog file: ");
@@ -85,14 +91,13 @@ public class PostUI {
                     post.transact(transaction);
                     store.saveTransaction(transaction);
                     System.out.println("transaction done");
-                    //Invoice invoice = new Invoice(transaction, store);
+                    Invoice invoice = new Invoice(transaction, store);
+                    invoice.print();
             } catch (RemoteException ex) {
                 Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-
         }
     }
     

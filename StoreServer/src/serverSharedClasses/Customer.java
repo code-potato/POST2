@@ -2,6 +2,7 @@ package serverSharedClasses;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import serverInterfaces.*;
 import serverSharedClasses.*;
 
@@ -9,7 +10,7 @@ import serverSharedClasses.*;
  * Customer is responsible for initiating new transactions.
  * @author Michael Santer
  */
-public class Customer{
+public class Customer implements Serializable{
 
     private String firstName, lastName;
     

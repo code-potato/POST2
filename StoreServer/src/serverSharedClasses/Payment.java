@@ -1,10 +1,13 @@
 package serverSharedClasses;
+
+import java.io.Serializable;
+
 /**
  * Payment is an abstract class that defines the structure for other types of
  * payments. 
  * @author Michael Santer
  */
-public abstract class Payment{
+public abstract class Payment implements Serializable{
     private double amount;
     
     /**

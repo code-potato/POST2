@@ -1,5 +1,6 @@
 package serverSharedClasses;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import serverInterfaces.*;
@@ -10,7 +11,7 @@ import serverInterfaces.*;
  * a transaction.
  * @author Michael Santer
  */
-public class TransactionRecord{
+public class TransactionRecord implements Serializable{
     
     private Customer customer;
     private Payment payment;

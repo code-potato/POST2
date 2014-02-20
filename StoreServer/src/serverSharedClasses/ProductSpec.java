@@ -1,11 +1,12 @@
 package serverSharedClasses;
 
+import java.io.Serializable;
 import serverInterfaces.*;
 /**
  * ProductSpec contains necessary information to describe a product. 
  * @author David
  */
-public class ProductSpec{
+public class ProductSpec implements Serializable{
     private String UPC;
     private String description;
     private float price;

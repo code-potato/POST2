@@ -20,10 +20,9 @@ public class Invoice {
     Double total, amountReturned;
     Store store;
 
-    public Invoice(TransactionRecord transaction, double total, Store store) {
+    public Invoice(TransactionRecord transaction, Store store) {
         this.transaction = transaction;
         this.store = store;
-        this.total = total;
     }
 
     /**

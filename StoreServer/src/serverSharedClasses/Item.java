@@ -1,4 +1,5 @@
 package serverSharedClasses;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import serverInterfaces.*;
@@ -8,7 +9,7 @@ import serverInterfaces.*;
  * 
  * @author Michael Santer
  */
-public class Item {
+public class Item implements Serializable{
     private ProductSpec productSpec;
     private int quantity;
     
