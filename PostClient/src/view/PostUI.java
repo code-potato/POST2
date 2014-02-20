@@ -88,11 +88,13 @@ public class PostUI {
             // 1. process transaction, 2. save transaction, 3. print invoice
             if(transaction != null)
                 try {
+                    
                     post.transact(transaction);
                     store.saveTransaction(transaction);
                     System.out.println("transaction done");
                     Invoice invoice = new Invoice(transaction, store);
                     invoice.print();
+                    
             } catch (RemoteException ex) {
                 Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
