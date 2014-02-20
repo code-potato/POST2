@@ -1,25 +1,27 @@
 package server;
 
 /**
- * ProductCatalog contains all productSpecs matched with a UPC. 
+ * ProductCatalog contains all productSpecs matched with a UPC.
+ *
  * @author David
  */
-
 import java.rmi.RemoteException;
 import java.util.HashMap;
-import serverInterfaces.*;
-import serverSharedClasses.*;
+import java.util.Map;
+import java.util.Set;
+import serverSharedClasses.ProductSpec;
 
-class ProductCatalog {
+public class ProductCatalog {
 
     //a map of UPC's and the matchem product
-    private HashMap<String,ProductSpec> catalog;
-    
-    public ProductCatalog(){  
-        catalog = new HashMap<String,ProductSpec>();
+    //private static HashMap<String, ProductSpec> catalog;
+    public static HashMap<String, ProductSpec> catalog = new HashMap<>();
+
+    public ProductCatalog() {
+        //catalog = new HashMap<>();
     }
-    
-    public void addProductToCatalog(ProductSpec product) throws RemoteException{
+
+    public void addProductToCatalog(ProductSpec product) throws RemoteException {
         catalog.put(product.getUPC(), product);
     }
 
@@ -30,5 +32,12 @@ class ProductCatalog {
     public ProductSpec getProduct(String upc) {
         return catalog.get(upc);
     }
-    
+
+    public HashMap<String, ProductSpec> getCatalog() {
+        return catalog;
+    }
+
+    public Set<String> getUPCs() {
+        return catalog.keySet();
+    }
 }

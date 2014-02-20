@@ -20,7 +20,7 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
 
     private StoreImpl store;
 
-    private ManagerImpl() throws RemoteException{
+    private ManagerImpl() throws RemoteException {
     }
 
     /**
@@ -47,10 +47,11 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
         reader.init();
         while (reader.hasMoreProducts()) {
             store.addProductToCatalog(reader.getNextProduct());
+            System.out.println(store.getName());
         }
     }
-    
-    private Store getStore(){
+
+    private Store getStore() {
         return this.store;
     }
 
@@ -65,7 +66,6 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
 //        }
 //        store.newPost();
 //    }
-
     /**
      * Retrieves POST from store.
      *
@@ -78,7 +78,6 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
 //        }
 //        return store.getPost();
 //    }
-
     /**
      * Instantiate manager, instantiate UI, run UI.
      *
@@ -97,9 +96,9 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
             }
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.rebind("manager", manager);
-            registry.rebind("store", ((ManagerImpl)manager).getStore());
+            registry.rebind("store", ((ManagerImpl) manager).getStore());
             System.out.println("Manager and store instantiated");
-            
+
         } catch (RemoteException ex) {
             Logger.getLogger(ManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
