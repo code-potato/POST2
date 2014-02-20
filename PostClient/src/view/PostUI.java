@@ -97,9 +97,9 @@ public class PostUI {
     }
     
     public static void main(String[] args){
-        if(System.getSecurityManager() == null){
-            System.setSecurityManager(new SecurityManager());
-        }
+//        if(System.getSecurityManager() == null){
+//            System.setSecurityManager(new SecurityManager());
+//        }
         
         try{
             //get manager object through RMI connection
@@ -117,6 +117,5 @@ public class PostUI {
         } catch (NotBoundException ex) {
             Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 }

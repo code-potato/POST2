@@ -49,6 +49,10 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
             store.addProductToCatalog(reader.getNextProduct());
         }
     }
+    
+    private Store getStore(){
+        return this.store;
+    }
 
     /**
      * Initialize a new POST in store.
@@ -81,15 +85,19 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
      * @param args
      */
     public static void main(String args[]) {
-        if (System.getSecurityManager() == null){
-            System.setSecurityManager(new SecurityManager());
-        }
+//        if (System.getSecurityManager() == null){
+//            System.setSecurityManager(new SecurityManager());
+//        }
         try {
             Manager manager = new ManagerImpl();
-            Store store = new StoreImpl();
+            try {
+                manager.openStore("Default Name");
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.rebind("manager", manager);
-            registry.rebind("store", store);
+            registry.rebind("store", ((ManagerImpl)manager).getStore());
             System.out.println("Manager and store instantiated");
             
         } catch (RemoteException ex) {
