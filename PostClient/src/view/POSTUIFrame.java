@@ -374,7 +374,7 @@ public class POSTUIFrame extends javax.swing.JFrame {
             // Give store a default name
             store.setName("SFSU Bookstore");
             // Set up the product catalog
-            manager.setupProductCatalog("ProductFile");
+            manager.setupProductCatalog("productFile");
 
             /* Set the Nimbus look and feel */
             //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
