@@ -5,19 +5,15 @@
  */
 package view;
 
-import server.ProductCatalog;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import static java.util.Collections.sort;
-import java.util.HashMap;
-import java.util.Map;
+import static java.util.Arrays.sort;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -32,7 +28,6 @@ import serverSharedClasses.*;
  */
 public class POSTUIFrame extends javax.swing.JFrame {
 
-    private Vector<String> UPCs;
     private Manager manager;
     private Post post;
     private Store store;
@@ -48,8 +43,8 @@ public class POSTUIFrame extends javax.swing.JFrame {
         this.post = new Post(store);
         initComponents();
         try {
-            System.out.println(this.store.getProduct("0001").getDescription());
-            jComboBox1.setModel(new DefaultComboBoxModel(getUPCs()));
+            // Set a list of available UPCs as items for a drop-down menu
+            jComboBox1.setModel(new DefaultComboBoxModel(getProductUPCs()));
         } catch (RemoteException ex) {
             Logger.getLogger(POSTUIFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -350,44 +345,22 @@ public class POSTUIFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     /**
-     * This method handles the high level flow of the GUI.
-     *
+     * Get a list of available sorted UPCs
      */
-    /*   public void run() {
-     //Scanner in = new Scanner(System.in);
+    String[] getProductUPCs() throws RemoteException {
+        String[] UPCs = store.getUPCs();
+        sort(UPCs);
 
-     System.out.println("Welcome to the point of sale terminal (POST)!");
+        return UPCs;
+    }
 
-     //Get name of store and ask manager to open store and init post. 
-     //System.out.print("Please enter the name of the store: ");
-     try {
-     //        try {
-     //            //manager.openStore(in.nextLine());
-     //            manager.initPost();
-     //            post = manager.getPost();
-     //        } catch (Exception ex) {
-     //            System.err.println(ex.getMessage());
-     //        }
-     //store.setName(in.nextLine());
-     store.setName("SFSU Bookstore");
-     } catch (RemoteException ex) {
-     Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
-     }
-
-     //Get name of product catalog and ask manager to initialize it. 
-     //System.out.print("Please enter the name of Product Catalog file: ");
-     try {
-     //manager.setupProductCatalog(in.nextLine());
-     manager.setupProductCatalog("ProductFile");
-     } catch (IOException ex) {
-     System.err.println("File was not found!");
-     }
-     }*/
     /**
+     * Main method of the Post Client GUI
+     *
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-//        if(System.getSecurityManager() == null){
+//        if (System.getSecurityManager() == null) {
 //            System.setSecurityManager(new SecurityManager());
 //        }
 
@@ -396,12 +369,12 @@ public class POSTUIFrame extends javax.swing.JFrame {
             Registry rmtReg = LocateRegistry.getRegistry("127.0.0.1", 1099);
             final Manager manager = (Manager) rmtReg.lookup("manager");
             final Store store = (Store) rmtReg.lookup("store");
-            store.setName("SFSU Bookstore");
-            manager.setupProductCatalog("ProductFile");
 
-            System.out.println(store.getProduct("0001").getDescription());
-            System.out.println("Hello!");
             System.out.println("Welcome to the point of sale terminal (POST)!");
+            // Give store a default name
+            store.setName("SFSU Bookstore");
+            // Set up the product catalog
+            manager.setupProductCatalog("ProductFile");
 
             /* Set the Nimbus look and feel */
             //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -432,38 +405,11 @@ public class POSTUIFrame extends javax.swing.JFrame {
                     new POSTUIFrame(manager, store).setVisible(true);
                 }
             });
-        } catch (RemoteException ex) {
-            Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NotBoundException ex) {
+        } catch (RemoteException | NotBoundException ex) {
             Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             System.err.println(ex);
         }
-    }
-
-    /**
-     * Get a list of available UPCs as inputs for a drop-down menu
-     *
-     */
-    public String[] getUPCs() throws RemoteException {
-        return store.getUPCs();
-//        UPCs = new Vector<>();
-//        HashMap<String, ProductSpec> catalog = ProductCatalog.catalog;
-//        if (!catalog.isEmpty()) {
-//            System.out.println(catalog.size());
-//            for (Map.Entry entry : catalog.entrySet()) {
-//                System.out.println(entry.getKey().toString());
-//                UPCs.add(entry.getKey().toString());
-//            }
-//            sort(UPCs);
-//        } else {
-//            System.out.println("NULL!");
-//            UPCs.add("0001");
-//            UPCs.add("0002");
-//            UPCs.add("0003");
-//        }
-
-        //
     }
 
     /**
@@ -489,8 +435,6 @@ public class POSTUIFrame extends javax.swing.JFrame {
             jLabel13.setText(transaction.getDateAndTime().toString());
         }
         Item item = new Item();
-        System.out.println(jComboBox1.getSelectedItem().toString());
-        System.out.println(store.getProduct(jComboBox1.getSelectedItem().toString()));
         item.setProductSpec(store.getProduct(jComboBox1.getSelectedItem().toString()));
         item.setQuantity(Integer.valueOf(jComboBox2.getSelectedItem().toString()));
         if (!jComboBox2.getSelectedItem().toString().equals("0")) {
@@ -513,7 +457,7 @@ public class POSTUIFrame extends javax.swing.JFrame {
         try {
             TotalLabel.setText("$" + String.valueOf(post.getTotal(transaction)));
         } catch (Exception ex) {
-            // Do nothing.
+            System.err.println(ex);
         }
 
         return output;
@@ -525,11 +469,18 @@ public class POSTUIFrame extends javax.swing.JFrame {
      */
     public String displayInvoice() {
         double amount = 0., total = 0.;
-        String transResult = "";
+        String invoice = "";
 
         try {
             if (nameField.getText().isEmpty()) {
                 String error = "\nError: The customer name is empty!\n";
+                return output + error;
+            }
+            if (output.equals("")) {
+                jTextArea.setText("");
+            }
+            if (jTextArea.getText().isEmpty()) {
+                String error = "\nError: The transaction items list is empty!\n";
                 return output + error;
             }
             if (amountField.getText().isEmpty()) {
@@ -538,6 +489,12 @@ public class POSTUIFrame extends javax.swing.JFrame {
             }
             if (!jComboBox3.getSelectedItem().toString().equalsIgnoreCase("CREDIT") && Double.parseDouble(amountField.getText()) < post.getTotal(transaction)) {
                 String error = "\nError: The amount is not enough!\n";
+                return output + error;
+            }
+            try {
+                int creditCardNum = Integer.parseInt(amountField.getText().toString().trim());
+            } catch (NumberFormatException nfe) {
+                String error = "\nError: Wrong credit card number format (e. g. xxxxx)!\n";
                 return output + error;
             }
             if (jComboBox3.getSelectedItem().toString().equalsIgnoreCase("CREDIT") && amountField.getText().toString().trim().length() < 5) {
@@ -557,14 +514,19 @@ public class POSTUIFrame extends javax.swing.JFrame {
             }
             transaction.setPayment(pay);
             transaction = post.transact(transaction);
-            transResult = post.toString();
+            invoice = output + post.toString();
             store.saveTransaction(transaction);
-            System.out.println("transaction done");
+            System.out.println("Transaction is done!");
+            if (!transaction.isEmpty()) {
+                transaction.removeAllItem();
+            }
+            output = "";
+
         } catch (Exception ex) {
-            // Do nothing.
+            System.err.println(ex);
         }
 
-        return output + transResult;
+        return invoice;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

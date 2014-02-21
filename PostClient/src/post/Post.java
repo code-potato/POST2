@@ -48,6 +48,9 @@ public class Post {
 
     }
 
+    /**
+     * Get the total of current transaction.
+     */
     public double getTotal(TransactionRecord transaction) throws Exception {
         double total = 0.;
         ArrayList<Item> items = transaction.getItems();

@@ -95,6 +95,8 @@ public class Invoice {
 
     /**
      * Prints a transaction result to GUI screen.
+     *
+     * @return
      */
     public String printToScreen() {
         String invoice = "";
