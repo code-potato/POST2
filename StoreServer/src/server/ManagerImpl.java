@@ -47,8 +47,8 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
         reader.init();
         while (reader.hasMoreProducts()) {
             store.addProductToCatalog(reader.getNextProduct());
-            System.out.println(store.getName());
         }
+        System.out.println("A client has set up a product catalog.");
     }
 
     private Store getStore() {
@@ -97,7 +97,7 @@ class ManagerImpl extends UnicastRemoteObject implements Manager {
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.rebind("manager", manager);
             registry.rebind("store", ((ManagerImpl) manager).getStore());
-            System.out.println("Manager and store instantiated");
+            System.out.println("Manager and store instantiated.");
 
         } catch (RemoteException ex) {
             Logger.getLogger(ManagerImpl.class.getName()).log(Level.SEVERE, null, ex);

@@ -3,8 +3,6 @@ package server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 import serverInterfaces.*;
 import serverSharedClasses.*;
 
@@ -23,12 +21,13 @@ class StoreImpl extends UnicastRemoteObject implements Store {
     public StoreImpl() throws RemoteException {
         this.name = "Default Store";
         productCatalog = new ProductCatalog();
-        transactionHistory = new ArrayList<TransactionRecord>();
+        transactionHistory = new ArrayList<>();
     }
 
 //    public Post getPost(){
 //        return post;
 //    }
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -48,6 +47,7 @@ class StoreImpl extends UnicastRemoteObject implements Store {
      *
      * @param product
      */
+    @Override
     public void addProductToCatalog(ProductSpec product) throws RemoteException {
         productCatalog.addProductToCatalog(product);
     }
@@ -58,6 +58,7 @@ class StoreImpl extends UnicastRemoteObject implements Store {
      * @param upc
      * @return true if product exists, false if not.
      */
+    @Override
     public boolean hasProduct(String upc) {
         return productCatalog.hasProduct(upc);
     }
@@ -78,6 +79,7 @@ class StoreImpl extends UnicastRemoteObject implements Store {
         return productCatalog;
     }
 
+    @Override
     public String[] getUPCs() {
         return productCatalog.getUPCs().toArray(new String[0]);
     }
@@ -87,10 +89,12 @@ class StoreImpl extends UnicastRemoteObject implements Store {
      *
      * @param transaction
      */
+    @Override
     public void saveTransaction(TransactionRecord transaction) {
         transactionHistory.add(transaction);
     }
 
+    @Override
     public String getName() {
         return name;
     }

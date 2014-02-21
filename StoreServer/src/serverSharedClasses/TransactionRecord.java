@@ -29,7 +29,7 @@ public class TransactionRecord implements Serializable {
         //set date and time to current date and time
         dateAndTime = new Date();
         this.customer = customer;
-        items = new ArrayList<Item>();
+        items = new ArrayList<>();
     }
 
     public String getCustomerFirstName() {
@@ -69,6 +69,11 @@ public class TransactionRecord implements Serializable {
         return false;
     }
 
+    // Check if transaction has any items
+    public boolean isEmpty() throws RemoteException {
+        return items.isEmpty();
+    }
+
     // Remove an item from transaction
     public void removeItem(Item transItem) throws RemoteException {
         for (Item item : items) {
@@ -77,6 +82,11 @@ public class TransactionRecord implements Serializable {
                 return;
             }
         }
+    }
+
+    // Remove all item from transaction
+    public void removeAllItem() throws RemoteException {
+        items.clear();
     }
 
     public void setPayment(Payment pay) {

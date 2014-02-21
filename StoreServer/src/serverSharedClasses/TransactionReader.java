@@ -1,12 +1,8 @@
 package serverSharedClasses;
 
-import serverSharedClasses.Customer;
 import java.io.*;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
-import serverInterfaces.*;
-import serverSharedClasses.*;
-
 
 /**
  * TransactionReader reads a list of transactions records from a file, and

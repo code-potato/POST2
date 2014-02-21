@@ -7,8 +7,6 @@ package serverInterfaces;
 
 import server.ProductCatalog;
 import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.Set;
 import serverSharedClasses.*;
 
 /**
