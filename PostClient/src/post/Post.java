@@ -1,9 +1,13 @@
 package post;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import serverInterfaces.*;
-import serverSharedClasses.Item;
-import serverSharedClasses.TransactionRecord;
+import serverSharedClasses.*;
 
 /**
  * Post's main responsibility is to perform the transaction. This includes 1)
@@ -19,6 +23,105 @@ public class Post {
 
     public Post(Store store) {
         this.store = store;
+    }
+    
+    /* ********** Methods for Interaction with Store ******** */
+    
+    /**
+     * Gets a hashmap of all products from the server
+     * @return HashMap<String, ProductSpec>. Returns null, if server is offline.
+     */
+    public HashMap<String, ProductSpec> getProductCatalog() {
+        try {
+            return store.getProductCatalog();
+        } catch (RemoteException ex) {
+            System.err.println("Server is disocnnected." + ex.getMessage());
+            return null;
+        }
+    }
+    
+    /**
+     * 
+     * @param name
+     * @return true if successful. false if server is disconnected
+     */
+    public boolean getStoreName(String name) {
+        try {
+            store.setName(name);
+            return true;
+        } catch (RemoteException ex) {
+            System.err.println("Server is disocnnected." + ex.getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * @return store name. Returns null if server is offline
+     */
+    public String getStoreName() {
+        try {
+            return store.getName();
+        } catch (RemoteException ex) {
+            System.err.println("Server is disocnnected." + ex.getMessage());
+            return null;
+        }
+    }
+     
+    /**
+     * 
+     * @param transact
+     * @return true if successful. False if server is disconnected.
+     */
+    public boolean saveTransactionToStore(TransactionRecord transact) {
+        try {
+            store.saveTransaction(transact);
+            return true;
+        } catch (RemoteException ex) {
+            System.err.println("Server is disocnnected." + ex.getMessage());
+            return false;
+        }
+    }
+    
+    /* ********** Methods for Interaction with TransactionRecords ******** */
+    
+    /**
+     * Creates a new transactionRecord that is empty
+     * @param customerName
+     * @return 
+     */
+    public TransactionRecord createTransaction() {
+        TransactionRecord transaction = new TransactionRecord();
+        return transaction;
+    }
+    
+    /**
+     * Adds customer name to transactionRecord
+     * @param transact
+     * @param customerName 
+     */
+    public void setCustomer(TransactionRecord transact, String customerName) {
+        Customer customer = new Customer();
+        StringTokenizer tok = new StringTokenizer(customerName);
+        
+        //parse customer name into first and last
+        customer.setFirstName(tok.nextToken());
+        if (tok.hasMoreTokens()) {
+            customer.setLastName(tok.nextToken());
+        }
+        transact.setCustomer(customer);
+    }
+    
+    /**
+     * Adds item to transactionRecord. If Item already exists, it updates it. 
+     * @param transaction
+     * @param item 
+     */
+    public void addItemtoTransaction(TransactionRecord transaction, Item item) {
+         if (!transaction.hasItem(item)) 
+                transaction.addItem(item);
+         else 
+            transaction.updateItem(item);
     }
 
     public TransactionRecord transact(TransactionRecord transaction) throws Exception {
@@ -71,6 +174,5 @@ public class Post {
     @Override
     public String toString() {
         return invoice.printToScreen();
-
     }
 }

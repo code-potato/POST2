@@ -25,11 +25,9 @@ public class TransactionRecord implements Serializable {
      *
      * @param customer
      */
-    public TransactionRecord(Customer customer) {
+    public TransactionRecord() {
         //set date and time to current date and time
         dateAndTime = new Date();
-        this.customer = customer;
-        items = new ArrayList<>();
     }
 
     public String getCustomerFirstName() {
@@ -51,7 +49,7 @@ public class TransactionRecord implements Serializable {
     }
 
     // Update an existing transaction item
-    public void updateItem(Item transItem) throws RemoteException {
+    public void updateItem(Item transItem) {
         for (Item item : items) {
             if (item.getUPC().equals(transItem.getUPC())) {
                 item.setQuantity(transItem.getQuantity());
@@ -60,7 +58,7 @@ public class TransactionRecord implements Serializable {
     }
 
     // Check if item with given UPC already exists
-    public boolean hasItem(Item transItem) throws RemoteException {
+    public boolean hasItem(Item transItem) {
         for (Item item : items) {
             if (item.getUPC().equals(transItem.getUPC())) {
                 return true;
@@ -70,7 +68,7 @@ public class TransactionRecord implements Serializable {
     }
 
     // Check if transaction has any items
-    public boolean isEmpty() throws RemoteException {
+    public boolean isEmpty() {
         return items.isEmpty();
     }
 
@@ -103,5 +101,9 @@ public class TransactionRecord implements Serializable {
 
     public ArrayList getItems() {
         return items;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

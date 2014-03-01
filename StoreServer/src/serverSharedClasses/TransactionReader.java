@@ -59,7 +59,8 @@ class TransactionReader {
         }
 
         //create new transaction with constructed customer
-        transaction = new TransactionRecord(customer);
+        transaction = new TransactionRecord();
+        transaction.setCustomer(customer);
 
         //read subsequent lines
         String next = reader.readLine();

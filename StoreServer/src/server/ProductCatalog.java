@@ -34,4 +34,9 @@ public class ProductCatalog {
     public Set<String> getUPCs() {
         return catalog.keySet();
     }
+
+    HashMap<String, ProductSpec> getAllProducts() {
+        return catalog;
+    }
+
 }

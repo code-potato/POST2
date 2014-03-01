@@ -17,27 +17,27 @@ public class Item implements Serializable {
     public Item() throws RemoteException {
     }
 
-    public void setQuantity(int quantity) throws RemoteException {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public String getUPC() throws RemoteException {
+    public String getUPC() {
         return productSpec.getUPC();
     }
 
-    public int getQuantity() throws RemoteException {
+    public int getQuantity() {
         return quantity;
     }
 
-    public float getPrice() throws RemoteException {
+    public float getPrice() {
         return productSpec.getPrice();
     }
 
-    public String getDescription() throws RemoteException {
+    public String getDescription() {
         return productSpec.getDescription();
     }
 
-    public void setProductSpec(ProductSpec productSpec) throws RemoteException {
+    public void setProductSpec(ProductSpec productSpec) {
         this.productSpec = productSpec;
     }
 

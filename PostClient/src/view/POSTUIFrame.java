@@ -431,7 +431,8 @@ public class POSTUIFrame extends javax.swing.JFrame {
             return output + error;
         }
         if (transaction == null) {
-            transaction = new TransactionRecord(customer);
+            transaction = new TransactionRecord();
+            transaction.setCustomer(customer);
             jLabel13.setText(transaction.getDateAndTime().toString());
         }
         Item item = new Item();
@@ -518,7 +519,7 @@ public class POSTUIFrame extends javax.swing.JFrame {
             store.saveTransaction(transaction);
             System.out.println("Transaction is done!");
             if (!transaction.isEmpty()) {
-                transaction.removeAllItem();
+                transaction = new TransactionRecord();
             }
             output = "";
 

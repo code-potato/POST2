@@ -7,6 +7,7 @@ package serverInterfaces;
 
 import server.ProductCatalog;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import serverSharedClasses.*;
 
 /**
@@ -23,7 +24,7 @@ public interface Store extends java.rmi.Remote {
 
     public ProductSpec getProduct(String upc) throws RemoteException;
 
-    public ProductCatalog getProductCatalog() throws RemoteException;
+    public HashMap<String, ProductSpec> getProductCatalog() throws RemoteException;
 
     public String[] getUPCs() throws RemoteException;
 

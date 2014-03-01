@@ -3,6 +3,7 @@ package server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import serverInterfaces.*;
 import serverSharedClasses.*;
 
@@ -75,8 +76,8 @@ class StoreImpl extends UnicastRemoteObject implements Store {
     }
 
     @Override
-    public ProductCatalog getProductCatalog() {
-        return productCatalog;
+    public HashMap<String, ProductSpec> getProductCatalog() {
+        return productCatalog.getAllProducts();
     }
 
     @Override
