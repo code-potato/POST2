@@ -26,12 +26,12 @@
 	<!ELEMENT Irresolvable ANY>
 	<!ATTLIST Irresolvable 
 		   id CDATA #IMPLIED >
-]--><TypeManagement projectID="DCE.61C05AC5-9D69-82D5-84FA-62935095372E">
+]--><TypeManagement projectID="DCE.3AE40C19-5A27-21F6-53CE-49BDEB97F5F1">
 	<Locations nextID="1">
-	<Location locID="T.0" href="./POST-Model.etup"/></Locations>
+	<Location locID="T.0" href="./StoreServer-Model.etup"/></Locations>
 
    <Types>
-   <Type id="DCE.EA3E359F-3516-0FF1-FAB1-53C362114206" location="T.0" name="Unnamed"/></Types>
+   <Type id="DCE.B7F52F56-95F6-4A04-B809-827EDBDE8F02" location="T.0" name="Unnamed"/></Types>
 
 	<IrresolvableTypes>
 	</IrresolvableTypes>
