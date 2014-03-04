@@ -12,6 +12,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import static java.util.Arrays.sort;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -355,7 +357,12 @@ public class POSTUIFrame extends javax.swing.JFrame {
      * Get a list of available sorted UPCs
      */
     String[] getProductUPCs() throws RemoteException {
-        String[] UPCs = store.getUPCs();
+        HashMap<String, ProductSpec> catalog = post.getProductCatalog();
+        String[] UPCs = new String[catalog.size()];
+        int i = 0;
+        for (Map.Entry entry : catalog.entrySet()) {
+            UPCs[i++] = entry.getKey().toString();
+        }
         sort(UPCs);
 
         return UPCs;
@@ -414,6 +421,43 @@ public class POSTUIFrame extends javax.swing.JFrame {
             });
         } catch (RemoteException | NotBoundException ex) {
             Logger.getLogger(PostUI.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                final Manager localManager = new ClientManagerImpl();
+                localManager.openStore("Default Name");
+                final Store localStore = ((ClientManagerImpl) localManager).getStore();
+
+                System.out.println("Welcome to the local point of sale terminal (POST)!");
+                // Give store a default name
+                localStore.setName("SFSU Bookstore");
+                // Set up the product catalog
+                localManager.setupProductCatalog("productFile");
+
+                /* Set the Nimbus look and feel */
+                //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+                 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+                 */
+                try {
+                    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                        if ("Nimbus".equals(info.getName())) {
+                            javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        }
+                    }
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException e) {
+                    java.util.logging.Logger.getLogger(POSTUIFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+                //</editor-fold>
+
+                /* Create and display the form */
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        new POSTUIFrame(localManager, localStore).setVisible(true);
+                    }
+                });
+            } catch (Exception e) {
+                System.err.println(e);
+            }
         } catch (IOException ex) {
             System.err.println(ex);
         }
@@ -438,7 +482,7 @@ public class POSTUIFrame extends javax.swing.JFrame {
             return output + error;
         }
         if (transaction == null) {
-            transaction = new TransactionRecord();
+            transaction = post.createTransaction();
             transaction.setCustomer(customer);
             jLabel13.setText(transaction.getDateAndTime().toString());
         }
@@ -523,13 +567,13 @@ public class POSTUIFrame extends javax.swing.JFrame {
             transaction.setPayment(pay);
             transaction = post.transact(transaction);
             invoice = output + post.toString();
-            store.saveTransaction(transaction);
+            post.saveTransactionToStore(transaction);
             System.out.println("Transaction is done!");
-            if (!transaction.isEmpty()) {
-                transaction = new TransactionRecord();
-            }
+            transaction = null;
             output = "";
 
+        } catch (RemoteException ex) {
+            System.err.println("Server is disocnnected." + ex.getMessage());
         } catch (Exception ex) {
             System.err.println(ex);
         }

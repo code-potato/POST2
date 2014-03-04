@@ -24,11 +24,11 @@ public class Post {
     public Post(Store store) {
         this.store = store;
     }
-    
+
     /* ********** Methods for Interaction with Store ******** */
-    
     /**
      * Gets a hashmap of all products from the server
+     *
      * @return HashMap<String, ProductSpec>. Returns null, if server is offline.
      */
     public HashMap<String, ProductSpec> getProductCatalog() {
@@ -39,13 +39,13 @@ public class Post {
             return null;
         }
     }
-    
+
     /**
-     * 
+     *
      * @param name
      * @return true if successful. false if server is disconnected
      */
-    public boolean getStoreName(String name) {
+    public boolean setStoreName(String name) {
         try {
             store.setName(name);
             return true;
@@ -54,9 +54,9 @@ public class Post {
             return false;
         }
     }
-    
+
     /**
-     * 
+     *
      * @return store name. Returns null if server is offline
      */
     public String getStoreName() {
@@ -67,43 +67,39 @@ public class Post {
             return null;
         }
     }
-     
+
     /**
-     * 
+     *
      * @param transact
      * @return true if successful. False if server is disconnected.
      */
-    public boolean saveTransactionToStore(TransactionRecord transact) {
-        try {
-            store.saveTransaction(transact);
-            return true;
-        } catch (RemoteException ex) {
-            System.err.println("Server is disocnnected." + ex.getMessage());
-            return false;
-        }
+    public boolean saveTransactionToStore(TransactionRecord transact) throws RemoteException {
+        store.saveTransaction(transact);
+        return true;
     }
-    
+
     /* ********** Methods for Interaction with TransactionRecords ******** */
-    
     /**
      * Creates a new transactionRecord that is empty
+     *
      * @param customerName
-     * @return 
+     * @return
      */
     public TransactionRecord createTransaction() {
         TransactionRecord transaction = new TransactionRecord();
         return transaction;
     }
-    
+
     /**
      * Adds customer name to transactionRecord
+     *
      * @param transact
-     * @param customerName 
+     * @param customerName
      */
     public void setCustomer(TransactionRecord transact, String customerName) {
         Customer customer = new Customer();
         StringTokenizer tok = new StringTokenizer(customerName);
-        
+
         //parse customer name into first and last
         customer.setFirstName(tok.nextToken());
         if (tok.hasMoreTokens()) {
@@ -111,17 +107,19 @@ public class Post {
         }
         transact.setCustomer(customer);
     }
-    
+
     /**
-     * Adds item to transactionRecord. If Item already exists, it updates it. 
+     * Adds item to transactionRecord. If Item already exists, it updates it.
+     *
      * @param transaction
-     * @param item 
+     * @param item
      */
     public void addItemtoTransaction(TransactionRecord transaction, Item item) {
-         if (!transaction.hasItem(item)) 
-                transaction.addItem(item);
-         else 
+        if (!transaction.hasItem(item)) {
+            transaction.addItem(item);
+        } else {
             transaction.updateItem(item);
+        }
     }
 
     public TransactionRecord transact(TransactionRecord transaction) throws Exception {
