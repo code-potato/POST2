@@ -25,18 +25,18 @@ public class MyTestPanel extends javax.swing.JPanel
     {
         initComponents();
         // setting up black JPanel
-                JPanel panel = new JPanel();
-                panel.setPreferredSize(new Dimension(220, 40));
-                panel.setBackground(Color.BLACK);
+                //JPanel panel = new JPanel();
+                //panel.setPreferredSize(new Dimension(220, 40));
+                //panel.setBackground(Color.BLACK);
 
                 // creating button on external JPanel
-                JButton button = new JButton("Button (+JPanel) from external class");
+                //JButton button = new JButton("Button (+JPanel) from external class");
 
                 // adding button to the black JPanel
-                panel.add(button);
+                //panel.add(button);
 
                 // adding blackJPanel
-                add(panel);
+                //add(panel);
         
     }
 

@@ -19,9 +19,10 @@ import javax.swing.JPanel;
 public class POSTUIFrame2 extends javax.swing.JFrame
 {
     public MyTestPanel mypanel;
-    public JButton testButton;
-    public JPanel panelMain;
-
+    public CustNamePanel customerNamePanel;
+    public ProductPanel productPanel;
+    public InvoicePanel invoicePanel;
+    public PaymentPanel paymentPanel;
     /**
      * Creates new form POSTUIFrame2
      */
@@ -29,31 +30,25 @@ public class POSTUIFrame2 extends javax.swing.JFrame
     {
         initComponents();
         mypanel= new MyTestPanel();
-        //this.add(mypanel);
-        //this.setVisible(true);
-        setLayout(null);
-                setPreferredSize(new Dimension(700, 700));
-                setResizable(false);
-                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                // creating main JPanel (white)
-                panelMain = new JPanel();
-                panelMain.setBackground(Color.WHITE);
-                panelMain.setBounds(0, 0, 600, 600); 
-                panelMain.setPreferredSize(new Dimension(400, 400));
-                add(panelMain);
-
-                // creating JButton in the main JPanel (white)
-                testButton = new JButton("Button from main class");
-                panelMain.add(testButton);
-
-                // creating new JPanelOne object from JPanelOne class containing black JPanel
-                
-
-                // adding black JPanel to main JPanel (white)
-                panelMain.add(mypanel);
-
-                pack();
+        //adding the respective panels to the jFrame here.
+        this.customerNamePanel= new CustNamePanel();
+        this.customerNamePanel.setBounds(0, 25, 300, 75);
+        this.add(customerNamePanel);
+        
+        this.productPanel= new ProductPanel();
+        this.productPanel.setBounds(440, 0, 349, 138);
+        this.add(productPanel);
+        
+        this.invoicePanel= new InvoicePanel();
+        this.invoicePanel.setBounds(15, 140, 775, 374);
+        this.add(invoicePanel);
+        
+        this.paymentPanel= new PaymentPanel();
+        this.paymentPanel.setBounds(259, 515, 531, 124);
+        this.add(paymentPanel);
+        
+        pack();
+        
     }
 
     /**
@@ -76,7 +71,7 @@ public class POSTUIFrame2 extends javax.swing.JFrame
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 569, Short.MAX_VALUE)
+            .addGap(0, 650, Short.MAX_VALUE)
         );
 
         pack();
