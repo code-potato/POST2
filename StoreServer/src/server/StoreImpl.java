@@ -12,7 +12,7 @@ import serverSharedClasses.*;
  *
  * @author Michael Santer
  */
-class StoreImpl extends UnicastRemoteObject implements Store {
+public class StoreImpl extends UnicastRemoteObject implements Store {
 
     private String name;
     //private Post post;

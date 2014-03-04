@@ -28,6 +28,7 @@ public class TransactionRecord implements Serializable {
     public TransactionRecord() {
         //set date and time to current date and time
         dateAndTime = new Date();
+        items = new ArrayList<>();
     }
 
     public String getCustomerFirstName() {

@@ -16,7 +16,7 @@ import serverInterfaces.*;
  * POSTs, and loading the Product Catalog.
  *
  */
-class ManagerImpl extends UnicastRemoteObject implements Manager {
+public class ManagerImpl extends UnicastRemoteObject implements Manager {
 
     private StoreImpl store;
 

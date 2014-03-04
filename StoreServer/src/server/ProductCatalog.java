@@ -35,7 +35,7 @@ public class ProductCatalog {
         return catalog.keySet();
     }
 
-    HashMap<String, ProductSpec> getAllProducts() {
+    public HashMap<String, ProductSpec> getAllProducts() {
         return catalog;
     }
 
