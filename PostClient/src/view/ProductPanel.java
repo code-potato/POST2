@@ -6,17 +6,39 @@
 
 package view;
 
+import java.rmi.RemoteException;
+import static java.util.Arrays.sort;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import post.Post;
+import serverSharedClasses.ProductSpec;
+
 /**
  *
- * @author rrs
+ * @author Rachel, Steven, & Terry
  */
 public class ProductPanel extends javax.swing.JPanel {
 
+    private POSTUIFrame2 GUIparent;
     /**
      * Creates new form ProductBox
      */
-    public ProductPanel() {
+    public ProductPanel(POSTUIFrame2 parentJFrame) 
+    {
+        this.GUIparent= parentJFrame;
         initComponents();
+        
+        //Dynamically populates the UPC dropdown menu with the list of UPC's
+        try {
+            // Set a list of available UPCs as items for a drop-down menu
+            jComboBox1.setModel(new DefaultComboBoxModel(getProductUPCs()));
+        } catch (RemoteException ex) {
+            Logger.getLogger(POSTUIFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -80,7 +102,7 @@ public class ProductPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
@@ -94,13 +116,36 @@ public class ProductPanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        try {
+            //Upon product submission in product panel, invoicePanel is called via displayPost 
+            GUIparent.invoicePanel.displayPOST(); 
+            //jTextArea.setText(displayPOST());
+        } catch (RemoteException ex) {
+            Logger.getLogger(POSTUIFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    /**
+     * Get a list of available sorted UPCs
+     */
+    String[] getProductUPCs() throws RemoteException {
+        HashMap<String, ProductSpec> catalog = GUIparent.post.getProductCatalog();
+        String[] UPCs = new String[catalog.size()];
+        int i = 0;
+        for (Map.Entry entry : catalog.entrySet()) {
+            UPCs[i++] = entry.getKey().toString();
+        }
+        sort(UPCs);
+
+        return UPCs;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    public javax.swing.JComboBox jComboBox1;
+    public javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables

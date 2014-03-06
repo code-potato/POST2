@@ -285,6 +285,8 @@ public class POSTUIFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel13.setText("where is this label?");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

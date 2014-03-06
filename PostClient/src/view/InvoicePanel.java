@@ -6,16 +6,29 @@
 
 package view;
 
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
+import serverSharedClasses.CashPayment;
+import serverSharedClasses.CheckPayment;
+import serverSharedClasses.CreditPayment;
+import serverSharedClasses.Customer;
+import serverSharedClasses.Item;
+import serverSharedClasses.Payment;
+
 /**
  *
- * @author rrs
+ * @author rrs & steven
  */
 public class InvoicePanel extends javax.swing.JPanel {
 
+    private POSTUIFrame2 GUIparent;
     /**
      * Creates new form InvoicePanel
      */
-    public InvoicePanel() {
+    public InvoicePanel(POSTUIFrame2 GUIparent) {
+        this.GUIparent= GUIparent;
         initComponents();
     }
 
@@ -37,7 +50,7 @@ public class InvoicePanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        totalLabel = new javax.swing.JLabel();
 
         jLabel1.setText("Invoice");
 
@@ -58,7 +71,7 @@ public class InvoicePanel extends javax.swing.JPanel {
 
         jLabel6.setText("TOTAL");
 
-        jLabel7.setText("jLabel7");
+        totalLabel.setText("0.00");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -68,7 +81,7 @@ public class InvoicePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(43, 43, 43)
-                .addComponent(jLabel7)
+                .addComponent(totalLabel)
                 .addGap(97, 97, 97))
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
@@ -98,7 +111,7 @@ public class InvoicePanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7))
+                    .addComponent(totalLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -111,8 +124,123 @@ public class InvoicePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    public javax.swing.JTextArea jTextArea1;
+    public javax.swing.JLabel totalLabel;
     // End of variables declaration//GEN-END:variables
+
+    public void displayPOST() throws RemoteException {
+        Customer customer = new Customer();
+        String name = GUIparent.customerNamePanel.nameField.getText();
+        StringTokenizer tok = new StringTokenizer(name);
+        //parse customer name into first and last
+        try {
+            customer.setFirstName(tok.nextToken());
+            if (tok.hasMoreTokens()) {
+                customer.setLastName(tok.nextToken());
+            }
+        } catch (NoSuchElementException ex) {
+            String error = "\nError: The customer name is empty!";
+            jTextArea1.setText(GUIparent.output + error);
+        }
+        if (GUIparent.transaction == null) {
+            GUIparent.transaction = GUIparent.post.createTransaction();
+            GUIparent.transaction.setCustomer(customer);
+            GUIparent.jLabel13.setText(GUIparent.transaction.getDateAndTime().toString());
+        }
+        Item item = new Item();
+        item.setProductSpec(GUIparent.store.getProduct(GUIparent.productPanel.jComboBox1.getSelectedItem().toString()));
+        item.setQuantity(Integer.valueOf(GUIparent.productPanel.jComboBox2.getSelectedItem().toString()));
+        if (!GUIparent.productPanel.jComboBox2.getSelectedItem().toString().equals("0")) {
+            if (!GUIparent.transaction.hasItem(item)) {
+                GUIparent.transaction.addItem(item);
+            } else {
+                GUIparent.transaction.updateItem(item);
+            }
+        } else {
+            GUIparent.transaction.removeItem(item);
+        }
+        GUIparent.output = "";
+        ArrayList<Item> transItems = GUIparent.transaction.getItems();
+        for (Item transItem : transItems) {
+            double price = GUIparent.store.getProduct(transItem.getUPC()).getPrice();
+            GUIparent.output += String.format("%-50s\t %25s %30.2f %40.2f\n",
+                    GUIparent.store.getProduct(transItem.getUPC()).getDescription(),
+                    transItem.getQuantity(), price, price * transItem.getQuantity());
+        }
+        try {
+            totalLabel.setText("$" + String.valueOf(GUIparent.post.getTotal(GUIparent.transaction)));
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+
+        jTextArea1.setText(GUIparent.output);
+    }
+    
+    public void displayInvoice() {
+        double amount = 0., total = 0.;
+        String invoice = "";
+
+        try {
+            if (GUIparent.customerNamePanel.nameField.getText().isEmpty()) {
+                String error = "\nError: The customer name is empty!\n";
+                jTextArea1.setText(GUIparent.output + error);
+            }
+            if (GUIparent.output.equals("")) {
+                jTextArea1.setText("");
+            }
+            if (jTextArea1.getText().isEmpty()) {
+                String error = "\nError: The transaction items list is empty!\n";
+                jTextArea1.setText(GUIparent.output + error);
+            }
+            if (GUIparent.paymentPanel.amountField.getText().isEmpty()) {
+                String error = "\nError: The amount is empty!\n";
+                jTextArea1.setText(GUIparent.output + error);
+            }
+            if (!GUIparent.paymentPanel.paymentComboBox.getSelectedItem().toString().equalsIgnoreCase("CREDIT") && 
+                    Double.parseDouble(GUIparent.paymentPanel.amountField.getText()) < 
+                    GUIparent.post.getTotal(GUIparent.transaction)) {
+                String error = "\nError: The amount is not enough!\n";
+                jTextArea1.setText(GUIparent.output + error);
+            }
+            try {
+                int creditCardNum = Integer.parseInt(GUIparent.paymentPanel.amountField.getText().toString().trim());
+            } catch (NumberFormatException nfe) {
+                String error = "\nError: Wrong credit card number format (e. g. xxxxx)!\n";
+                jTextArea1.setText(GUIparent.output + error);
+            }
+            if (GUIparent.paymentPanel.paymentComboBox.getSelectedItem().toString().equalsIgnoreCase("CREDIT") 
+                    && GUIparent.paymentPanel.amountField.getText().toString().trim().length() < 5) {
+                String error = "\nError: Wrong credit card number format (e. g. xxxxx)!\n";
+                jTextArea1.setText(GUIparent.output + error);
+            }
+            Payment pay;
+            if (GUIparent.paymentPanel.paymentComboBox.getSelectedItem().toString().equalsIgnoreCase("CASH")) {
+                pay = new CashPayment();
+                pay.setAmount(Double.parseDouble(GUIparent.paymentPanel.amountField.getText()));
+            } else if (GUIparent.paymentPanel.paymentComboBox.getSelectedItem().toString().equalsIgnoreCase("CHECK")) {
+                pay = new CheckPayment();
+                pay.setAmount(Double.parseDouble(GUIparent.paymentPanel.amountField.getText()));
+            } else { //it's credit
+                int accountNumber = Integer.parseInt(GUIparent.paymentPanel.amountField.getText());
+                pay = (new CreditPayment(accountNumber));
+            }
+            GUIparent.transaction.setPayment(pay);
+            GUIparent.transaction = GUIparent.post.transact(GUIparent.transaction);
+            invoice = GUIparent.output + GUIparent.post.toString();
+            GUIparent.post.saveTransactionToStore(GUIparent.transaction);
+            System.out.println("Transaction is done!");
+            GUIparent.transaction = null;
+            GUIparent.output = "";
+
+        } catch (RemoteException ex) {
+            System.err.println("Server is disocnnected." + ex.getMessage());
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+        //Prints invoice to the Text area
+        jTextArea1.setText(invoice);
+        
+    }
+
 }
